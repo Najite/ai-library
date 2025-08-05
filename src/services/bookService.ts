@@ -199,8 +199,14 @@ export const searchBooks = async (query: string, includeAI: boolean = true): Pro
       );
     });
 
+    // Filter to only keep books with valid EPUB download links (strict - no exceptions)
+    const epubBooks = uniqueBooks.filter(
+      (book) =>
+        book.downloadUrl && typeof book.downloadUrl === 'string' && book.downloadUrl.endsWith('.epub')
+    );
+
     // Sort so AI recommendations appear first
-    const sortedBooks = uniqueBooks.sort((a, b) => {
+    const sortedBooks = epubBooks.sort((a, b) => {
       if (a.isAIRecommendation && !b.isAIRecommendation) return -1;
       if (!a.isAIRecommendation && b.isAIRecommendation) return 1;
       return 0;
@@ -212,7 +218,7 @@ export const searchBooks = async (query: string, includeAI: boolean = true): Pro
       query,
       enhancedQuery,
       searchTerms,
-      aiRecommendationsCount: sortedBooks.filter(b => b.isAIRecommendation).length
+      aiRecommendationsCount: 0 // No AI recommendations in strict mode
     };
 
   } catch (error) {
@@ -230,9 +236,15 @@ export const searchBooks = async (query: string, includeAI: boolean = true): Pro
         idx === arr.findIndex((b) => b.title.toLowerCase() === book.title.toLowerCase())
     );
 
+    // Filter for EPUB books only in fallback too
+    const epubBooks = uniqueBooks.filter(
+      (book) =>
+        book.downloadUrl && typeof book.downloadUrl === 'string' && book.downloadUrl.endsWith('.epub')
+    );
+
     return {
-      books: uniqueBooks,
-      totalResults: uniqueBooks.length,
+      books: epubBooks,
+      totalResults: epubBooks.length,
       query
     };
   }
