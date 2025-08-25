@@ -99,7 +99,7 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
             </button>
           )}
           
-          <a
+{/*           <a
             href={book.source === 'archive' 
               ? `https://archive.org/details/${book.id}` 
               : `https://openlibrary.org${book.id}`
@@ -109,7 +109,7 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
             className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center"
           >
             <ExternalLink className="w-4 h-4" />
-          </a>
+          </a> */}
         </div>
         
         {isDownloading && downloadProgress > 0 && (
