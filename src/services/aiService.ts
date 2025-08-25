@@ -52,11 +52,11 @@ const tryModelsWithTimeout = async (query: string, timeoutMs: number = 8000): Pr
           messages: [
             {
               role: 'system',
-              content: 'You are a librarian assistant. Given a search query, provide book recommendations. Respond with valid JSON only: {"enhancedQuery": "improved search query", "recommendations": ["Book Title by Author", "Book Title by Author", "Book Title by Author"], "searchTerms": ["term1", "term2", "term3"]}'
+              content: 'You are an academic librarian specializing in scholarly literature. Given a search query, provide ONLY academic book recommendations including textbooks, research monographs, scholarly publications, and peer-reviewed academic works. Do NOT recommend popular fiction, self-help, or general interest books. Focus on books published by academic presses, used in university courses, or written by scholars for academic audiences. Respond with valid JSON only: {"enhancedQuery": "improved academic search query", "recommendations": ["Academic Book Title by Scholar/Author (Publisher, Year)", "Academic Book Title by Scholar/Author (Publisher, Year)", "Academic Book Title by Scholar/Author (Publisher, Year)"], "searchTerms": ["academic_term1", "scholarly_term2", "research_term3"]}'
             },
             {
               role: 'user',
-              content: `Recommend books for: "${query}"`
+              content: `Recommend academic books and scholarly works for: "${query}"`
             }
           ],
           temperature: 0.3, // Lower temperature for faster, more consistent responses
@@ -68,7 +68,7 @@ const tryModelsWithTimeout = async (query: string, timeoutMs: number = 8000): Pr
             'Authorization': `Bearer ${AI_API_KEY}`,
             'Content-Type': 'application/json',
             'HTTP-Referer': 'localhost',
-            'X-Title': 'Book Recommendation App'
+            'X-Title': 'Academic Book Recommendation App'
           },
           timeout: timeoutMs,
           signal: controller.signal
@@ -136,75 +136,114 @@ export const getAIRecommendations = async (query: string): Promise<AIRecommendat
   }
 };
 
-// Smart fallback recommendations based on query analysis
-const getFallbackRecommendations = (query: string): string[] => {
+// Academic fallback recommendations based on query analysis
+const getAcademicFallbackRecommendations = (query: string): string[] => {
   const lowerQuery = query.toLowerCase();
   
-  // Emotion-based recommendations
-  if (lowerQuery.includes('sad') || lowerQuery.includes('depressed') || lowerQuery.includes('down')) {
+  // Psychology and Mental Health
+  if (lowerQuery.includes('psychology') || lowerQuery.includes('mental health') || lowerQuery.includes('cognitive')) {
     return [
-      "The Midnight Library by Matt Haig",
-      "Reasons to Stay Alive by Matt Haig",
-      "The Book of Joy by Dalai Lama and Desmond Tutu"
+      "Cognitive Psychology by Robert J. Sternberg (Cengage, 2017)",
+      "The Handbook of Social Psychology by Susan Fiske (Wiley, 2010)",
+      "Abnormal Psychology by Ronald Comer (Worth Publishers, 2019)"
     ];
   }
   
-  if (lowerQuery.includes('anxious') || lowerQuery.includes('worry') || lowerQuery.includes('stress')) {
+  // Computer Science and Technology
+  if (lowerQuery.includes('computer') || lowerQuery.includes('programming') || lowerQuery.includes('algorithm')) {
     return [
-      "The Anxiety and Phobia Workbook by Edmund Bourne",
-      "Dare by Barry McDonagh",
-      "The Power of Now by Eckhart Tolle"
+      "Introduction to Algorithms by Thomas Cormen (MIT Press, 2009)",
+      "Computer Networks by Andrew Tanenbaum (Pearson, 2021)",
+      "Artificial Intelligence: A Modern Approach by Stuart Russell (Pearson, 2020)"
     ];
   }
   
-  if (lowerQuery.includes('motivation') || lowerQuery.includes('inspiration') || lowerQuery.includes('lost')) {
+  // Business and Economics
+  if (lowerQuery.includes('business') || lowerQuery.includes('economics') || lowerQuery.includes('finance')) {
     return [
-      "Atomic Habits by James Clear",
-      "The 7 Habits of Highly Effective People by Stephen Covey",
-      "Man's Search for Meaning by Viktor Frankl"
+      "Principles of Economics by N. Gregory Mankiw (Cengage, 2020)",
+      "Strategic Management by Fred David (Pearson, 2019)",
+      "Corporate Finance by Ross, Westerfield & Jaffe (McGraw-Hill, 2018)"
     ];
   }
   
-  if (lowerQuery.includes('romance') || lowerQuery.includes('love')) {
+  // History and Political Science
+  if (lowerQuery.includes('history') || lowerQuery.includes('politics') || lowerQuery.includes('government')) {
     return [
-      "Pride and Prejudice by Jane Austen",
-      "The Seven Husbands of Evelyn Hugo by Taylor Jenkins Reid",
-      "Me Before You by Jojo Moyes"
+      "A History of Modern Political Thought by Iain Hampsher-Monk (Blackwell, 1992)",
+      "The Oxford History of the World edited by J.M. Roberts (Oxford, 2013)",
+      "Comparative Politics by Gabriel Almond (Pearson, 2015)"
     ];
   }
   
-  if (lowerQuery.includes('fantasy') || lowerQuery.includes('magic')) {
+  // Literature and English Studies
+  if (lowerQuery.includes('literature') || lowerQuery.includes('english') || lowerQuery.includes('writing')) {
     return [
-      "The Name of the Wind by Patrick Rothfuss",
-      "The Way of Kings by Brandon Sanderson",
-      "The Hobbit by J.R.R. Tolkien"
+      "The Norton Anthology of English Literature edited by Stephen Greenblatt (Norton, 2018)",
+      "Literary Theory: An Introduction by Terry Eagleton (University of Minnesota Press, 2008)",
+      "The Craft of Research by Wayne Booth (University of Chicago Press, 2016)"
     ];
   }
   
-  // Default recommendations
+  // Science (General)
+  if (lowerQuery.includes('science') || lowerQuery.includes('research') || lowerQuery.includes('method')) {
+    return [
+      "The Structure of Scientific Revolutions by Thomas Kuhn (University of Chicago Press, 1996)",
+      "Research Design: Qualitative, Quantitative, and Mixed Methods by John Creswell (SAGE, 2017)",
+      "Introduction to Scientific Research Methods in Geography by Basil Gomez (Wiley, 2019)"
+    ];
+  }
+  
+  // Philosophy
+  if (lowerQuery.includes('philosophy') || lowerQuery.includes('ethics') || lowerQuery.includes('logic')) {
+    return [
+      "The Problems of Philosophy by Bertrand Russell (Oxford, 1997)",
+      "Nicomachean Ethics by Aristotle, translated by Terence Irwin (Hackett, 2019)",
+      "A Concise Introduction to Logic by Patrick Hurley (Cengage, 2016)"
+    ];
+  }
+  
+  // Mathematics
+  if (lowerQuery.includes('math') || lowerQuery.includes('statistics') || lowerQuery.includes('calculus')) {
+    return [
+      "Calculus: Early Transcendentals by James Stewart (Cengage, 2020)",
+      "Introduction to Mathematical Statistics by Robert Hogg (Pearson, 2019)",
+      "Linear Algebra and Its Applications by David Lay (Pearson, 2015)"
+    ];
+  }
+  
+  // Default academic recommendations (interdisciplinary)
   return [
-    "The Alchemist by Paulo Coelho",
-    "Educated by Tara Westover",
-    "The Seven Habits of Highly Effective People by Stephen Covey"
+    "The Craft of Research by Wayne Booth (University of Chicago Press, 2016)",
+    "A Manual for Writers by Kate Turabian (University of Chicago Press, 2018)",
+    "The Academic Life by Steven Brint (Cambridge University Press, 2019)"
   ];
 };
 
-// Generate relevant search terms based on query
-const generateSearchTerms = (query: string): string[] => {
+// Generate academic search terms based on query
+const generateAcademicSearchTerms = (query: string): string[] => {
   const lowerQuery = query.toLowerCase();
   const baseTerms = [query];
   
-  // Add contextual search terms
-  if (lowerQuery.includes('sad') || lowerQuery.includes('depressed')) {
-    baseTerms.push('uplifting books', 'mental health', 'hope');
-  } else if (lowerQuery.includes('motivation')) {
-    baseTerms.push('self-help', 'personal development', 'success');
-  } else if (lowerQuery.includes('romance')) {
-    baseTerms.push('contemporary romance', 'love stories', 'romantic fiction');
-  } else if (lowerQuery.includes('fantasy')) {
-    baseTerms.push('epic fantasy', 'sword and sorcery', 'magical realism');
+  // Add academic contextual search terms
+  if (lowerQuery.includes('psychology')) {
+    baseTerms.push('psychological research', 'cognitive science', 'behavioral studies');
+  } else if (lowerQuery.includes('computer') || lowerQuery.includes('programming')) {
+    baseTerms.push('computer science textbooks', 'software engineering', 'algorithms and data structures');
+  } else if (lowerQuery.includes('business') || lowerQuery.includes('economics')) {
+    baseTerms.push('business administration', 'economic theory', 'management studies');
+  } else if (lowerQuery.includes('history')) {
+    baseTerms.push('historical analysis', 'historiography', 'historical research methods');
+  } else if (lowerQuery.includes('literature') || lowerQuery.includes('english')) {
+    baseTerms.push('literary criticism', 'comparative literature', 'rhetoric and composition');
+  } else if (lowerQuery.includes('philosophy')) {
+    baseTerms.push('philosophical inquiry', 'ethics and moral philosophy', 'logic and reasoning');
+  } else if (lowerQuery.includes('science')) {
+    baseTerms.push('scientific methodology', 'research methods', 'peer-reviewed studies');
+  } else if (lowerQuery.includes('math')) {
+    baseTerms.push('mathematical analysis', 'applied mathematics', 'statistical methods');
   } else {
-    baseTerms.push('popular fiction', 'bestsellers', 'award winners');
+    baseTerms.push('academic textbooks', 'scholarly publications', 'university press');
   }
   
   return baseTerms.slice(0, 3); // Limit to 3 terms
