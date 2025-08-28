@@ -61,7 +61,7 @@ const MainApp: React.FC = () => {
               <BookOpen className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">AI Library</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Gemma</h1>
               <p className="text-gray-600">Discover books with intelligent recommendations</p>
             </div>
           </div>
@@ -117,7 +117,7 @@ const MainApp: React.FC = () => {
               <BookOpen className="w-12 h-12 text-white" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              Welcome to AI Library
+              Welcome to Gemma
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto mb-8">
               Discover millions of books from Open Library and Internet Archive. 
