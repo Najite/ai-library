@@ -60,7 +60,7 @@ export const UserMenu: React.FC = () => {
                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
               >
                 <MessageSquare className="w-4 h-4" />
-               <a href="https://forms.gle/aiMRVwxWC7HYV3xr8"> <span>Give Feedback</span></a>
+               <a href="https://forms.gle/5ooHyhvfrG1yaemx8"> <span>Give Feedback</span></a>
               </button>
               <button
                 onClick={handleSignOut}
