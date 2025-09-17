@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, LogOut, ChevronDown } from 'lucide-react';
+import { User, LogOut, ChevronDown, MessageSquare } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export const UserMenu: React.FC = () => {
@@ -9,6 +9,22 @@ export const UserMenu: React.FC = () => {
   const handleSignOut = async () => {
     await signOut();
     setIsOpen(false);
+  };
+
+  const handleFeedback = () => {
+    // You can customize this action:
+    // - Open a modal
+    // - Navigate to a feedback page
+    // - Open an external feedback form
+    // - Show a toast notification
+    console.log('Opening feedback...');
+    setIsOpen(false);
+    
+    // Example: Open a feedback form in a new tab
+    // window.open('https://your-feedback-form-url.com', '_blank');
+    
+    // Example: Navigate to feedback page (if using React Router)
+    // navigate('/feedback');
   };
 
   if (!user) return null;
@@ -39,6 +55,13 @@ export const UserMenu: React.FC = () => {
               <div className="px-4 py-2 text-sm text-gray-500 border-b border-gray-100">
                 {user.email}
               </div>
+              <button
+                onClick={handleFeedback}
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
+              >
+                <MessageSquare className="w-4 h-4" />
+               <a href="https://forms.gle/aiMRVwxWC7HYV3xr8"> <span>Give Feedback</span></a>
+              </button>
               <button
                 onClick={handleSignOut}
                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
